@@ -57,15 +57,15 @@ class subDetector(detector):
         with open('data.pickle', 'wb') as file:
             pickle.dump(datalist, file)
 
-    def vectorize(self):
+    def vectorize(self,label_path:str,ngram:int):
         with open('data.pickle', 'rb') as file:
             loaded_data = pickle.load(file)
-        label = pd.read_csv('/media/dataset/dataset.csv', encoding = 'big5', dtype={'Column2': str})
+        label = pd.read_csv(label_path, encoding = 'big5', dtype={'Column2': str})
         label_x=[]
         label_y=[]
         for data in [record['feature'] for record in loaded_data]:
             label_x.append(" ".join(data[i:i+2] for i in range(0, len(data), 2)))
-        vectorizer = CountVectorizer(analyzer='word', ngram_range=(4, 4), lowercase=False)
+        vectorizer = CountVectorizer(analyzer='word', ngram_range=(ngram, ngram), lowercase=False)
         X=vectorizer.fit_transform(label_x)
         start = 0    
         for data in [record['file'] for record in loaded_data]:

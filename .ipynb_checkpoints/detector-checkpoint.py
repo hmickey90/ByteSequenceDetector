@@ -79,18 +79,12 @@ class subDetector(detector):
 
         return X, label_y
 
-    def pmodel(self,x_train,y_train):
-        svm_classifier = LinearSVC(C=0.2)
-        knn_classifier = KNeighborsClassifier(n_neighbors=3)
-        nb_classifier =  MultinomialNB()
-        svm_classifier.fit(x_train,y_train)
-        knn_classifier.fit(x_train,y_train)
-        nb_classifier.fit(x_train,y_train)
-        return svm_classifier, knn_classifier, nb_classifier
+    def pmodel(self, classifier, x_train,y_train ):
+        classifier.fit(x_train,y_train)
+        return classifier
     
-    def predict(self,svm_classifier,knn_classifier,nb_classifier,x_test,y_test)-> None:        
-        print("SVM:",accuracy_score(y_test,svm_classifier.predict(x_test)))
-        print("KNN:",accuracy_score(y_test,knn_classifier.predict(x_test)))
-        print("NB:",accuracy_score(y_test,nb_classifier.predict(x_test)))
+    def predict(self,classifier,x_test,y_test)-> None:        
+        print("Accuracy:",accuracy_score(y_test,classifier.predict(x_test)))
+
 
 
